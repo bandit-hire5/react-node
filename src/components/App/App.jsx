@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Grid  from 'react-bootstrap/lib/Grid';
-import Nav from 'react-bootstrap/lib/Nav';
+import AppNavbar from './AppNavbar';
+import Grid from 'react-bootstrap/lib/Grid';
 import Navbar from 'react-bootstrap/lib/Navbar';
-import NavItem  from 'react-bootstrap/lib/NavItem';
 import { Link, Route } from 'react-router-dom';
-import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
-import CounterPage from '../CounterPage';
-import HelloWorldPage from '../HelloWorldPage';
-import TimePage from '../TimePage';
+import routes from '../../routes';
 import './bootstrap.css';
-
-const propTypes = {
-    children: PropTypes.node,
-};
 
 class App extends Component {
     render() {
@@ -27,30 +18,19 @@ class App extends Component {
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
-                        <Nav navbar>
-                            <LinkContainer to='/time'>
-                                <NavItem>
-                                    Время
-                                </NavItem>
-                            </LinkContainer>
-                            <LinkContainer to='/counter'>
-                                <NavItem>
-                                    Счетчики
-                                </NavItem>
-                            </LinkContainer>
-                        </Nav>
+                        <AppNavbar />
                     </Navbar.Collapse>
                 </Navbar>
                 <Grid>
-                    <Route path="/" exact component={HelloWorldPage} />
-                    <Route path="/time" component={TimePage} />
-                    <Route path="/counter" component={CounterPage} />
+                    {
+                        routes.map((route, key) => {
+                            return <Route key={key} path={route.path} exact={route.exact ? true : null} component={route.component} />;
+                        })
+                    }
                 </Grid>
             </div>
         );
     }
 }
-
-App.propTypes = propTypes;
 
 export default App;
